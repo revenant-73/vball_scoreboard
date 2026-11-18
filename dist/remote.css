@@ -34,3 +34,8 @@
 .phone-remote #screen .screen-signature{display:none}
 .phone-remote .timer-face,.phone-remote .clock-face{padding:12px}
 .phone-remote #timer-time{font-size:80px}
+
+.team-0 .score-pad,.team-1 .score-pad{background:var(--panel);color:#fff;border-color:#ffffff40}
+.score-pad strong{color:#fff;font-weight:900}
+.team-0 .score-pad:active{background:#1c4f82}
+.team-1 .score-pad:active{background:#c2383d}

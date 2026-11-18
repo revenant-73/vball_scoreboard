@@ -37,3 +37,24 @@ main{max-width:none;padding:20px 24px 0}
  .display-only .dual-mode .score-number.triple{font-size:min(24cqw,26dvh)}
 }
 
+
+/* Flip-scoreboard colors: solid team panels and high-contrast white scores. */
+.team-0{--panel:#123a64}
+.team-1{--panel:#a42a2e;--team:#ff9b9b}
+.score-mode .teams,.dual-mode .teams{align-items:stretch;gap:10px;min-height:0;margin-top:14px}
+.score-mode .team,.dual-mode .team{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0;background:var(--panel);border:0;border-radius:8px;padding:16px 8px;color:#fff}
+.score-mode .team-name,.dual-mode .team-name{width:100%;color:#fff;flex-shrink:0}
+.score-mode .score-number,.dual-mode .score-number{color:#fff;font-weight:900;flex-shrink:0}
+.score-mode .set-display,.dual-mode .set-display{color:#fff;flex-shrink:0}
+.score-mode .set-display>span:first-child,.dual-mode .set-display>span:first-child{color:#fff;font-weight:600}
+.score-mode .serve,.dual-mode .serve{color:#fff}
+.score-mode .serve.serving,.dual-mode .serve.serving{color:#fff17c}
+.display-only .score-mode .teams,.display-only .dual-mode .teams{margin-top:2dvh}
+@media(max-width:600px){
+ .score-mode .teams,.dual-mode .teams{gap:6px;margin-top:10px}
+ .score-mode .team,.dual-mode .team{padding:12px 2px;border-radius:5px}
+}
+/* Keep two-digit bold scores inside each narrower dual-court panel. */
+.dual-mode .score-number{font-size:min(34cqw,55dvh)}
+.display-only .dual-mode .score-number{font-size:min(34cqw,66dvh)}
+@media(max-width:600px){.dual-mode .score-number{font-size:34cqw}.display-only .dual-mode .score-number{font-size:min(34cqw,28dvh)}}
