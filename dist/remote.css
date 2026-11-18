@@ -1,0 +1,36 @@
+/* Phone remote keeps scoring within thumb reach and settings out of the way. */
+#connection{display:flex;align-items:center;gap:10px;padding:12px 0 16px;font-size:14px;color:var(--lime)}
+#connection-status{flex:1}#connection button{font-size:13px;padding:8px 12px}
+#connection.connection-problem{color:var(--orange)}
+#remote-pads{display:none}#remote-settings>summary{display:none}
+#remote-settings:not([open])>#controls{display:block}
+#tv-connection{position:fixed;left:16px;bottom:12px;max-width:70vw;padding:12px 16px;background:#20271de8;border:1px solid var(--lime);border-radius:8px;z-index:5;color:var(--lime);font-size:clamp(14px,1.4vw,24px)}
+.phone-remote #screen,.phone-remote .workspace-heading,.phone-remote footer,.phone-remote #display{display:none}
+.phone-remote main{max-width:850px;padding-top:8px}.phone-remote .app-header{padding-inline:16px;height:70px}
+.phone-remote .brand small{display:none}.phone-remote #help{display:none}
+.phone-remote #connect-devices{font-size:13px}.phone-remote #connection{flex-wrap:wrap;gap:6px}
+.phone-remote #connection-status{flex-basis:100%;min-height:22px}
+.phone-remote #remote-pads{display:block}.phone-remote .modes{width:100%;display:grid;grid-template-columns:repeat(4,1fr);margin-bottom:14px}.phone-remote .modes button{min-width:0;font-size:14px;padding-inline:5px}
+.gesture-help{font-size:14px;color:var(--muted);text-align:center;margin:12px 0 18px}
+.remote-court{margin-bottom:20px}.remote-court h2{font-size:16px;letter-spacing:1px;margin-bottom:10px}
+.remote-teams{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.score-pad{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1a252e;border:2px solid #597da6;color:var(--team);min-height:220px;touch-action:pan-x;user-select:none;-webkit-user-select:none;padding:18px 6px}
+.team-1 .score-pad{background:#2d231c;border-color:#a26b45}.score-pad span{font-size:18px;font-weight:700;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.score-pad strong{font-size:clamp(65px,20vw,130px);font-variant-numeric:tabular-nums;line-height:1.2;letter-spacing:-4px}.score-pad small{font-size:14px;color:var(--text)}
+.subtract-pad{width:100%;margin-top:8px;min-height:48px;font-size:16px}.score-pad:active{background:#354c58}.team-1 .score-pad:active{background:#563b27}
+#remote-undo{width:100%;min-height:50px;font-size:16px;margin-bottom:18px}
+.phone-remote #remote-settings{border-top:1px solid var(--line);padding-top:10px}.phone-remote #remote-settings>summary{display:list-item;font-size:16px;padding:14px 6px;cursor:pointer}
+.phone-remote #remote-settings:not([open])>#controls{display:none}.phone-remote #remote-settings.timer-settings>summary{display:none}
+.phone-remote .score-actions,.phone-remote .controls-title{display:none}
+.phone-remote .field-label,.phone-remote .court-name-label,.phone-remote .set-controls>span{font-size:14px}.phone-remote .set-controls button{min-height:44px!important}.phone-remote .serve-control{font-size:14px}
+#connect-dialog h2{font-size:24px;margin:0}#connect-dialog p,#connect-dialog label{font-size:16px}#connect-dialog .help-note{font-size:14px}
+#connect-dialog .connect-start{display:grid;gap:10px;margin:20px 0}#join-session{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:18px}
+#pair-code{font-size:24px;text-transform:uppercase;letter-spacing:3px}#join-role{font:inherit;min-height:48px;padding:10px;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:6px}
+#session-code{display:block;font-size:32px;letter-spacing:4px;color:var(--lime)}#connect-error{color:var(--orange)}#end-session{margin-top:20px;color:var(--orange)}#tv-link-note{overflow-wrap:anywhere}
+@media(max-width:600px){.header-actions #connect-devices{font-size:11px;padding-inline:8px}.app-header .brand small{display:none}.app-header .brand{font-size:12px;letter-spacing:0}.header-actions #help{display:none}.score-pad{min-height:210px}#tv-connection{max-width:calc(100vw - 32px);bottom:60px}}
+
+.display-only #connection{display:none}
+.phone-remote #screen.timer-mode,.phone-remote #screen.clock-mode{display:flex;height:200px;min-height:200px;aspect-ratio:auto;margin-bottom:16px}
+.phone-remote #screen .screen-signature{display:none}
+.phone-remote .timer-face,.phone-remote .clock-face{padding:12px}
+.phone-remote #timer-time{font-size:80px}

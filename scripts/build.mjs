@@ -1,0 +1,10 @@
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+const files={'/index.html':'text/html; charset=utf-8','/style.css':'text/css; charset=utf-8','/model.js':'text/javascript; charset=utf-8','/app.js':'text/javascript; charset=utf-8','/remote.js':'text/javascript; charset=utf-8','/remote.css':'text/css; charset=utf-8'};
+const assets={};
+for(const [path,type] of Object.entries(files))assets[path]={type,body:await readFile(new URL('../dist'+path,import.meta.url),'utf8')};
+const model=await readFile(new URL('../dist/model.js',import.meta.url),'utf8');
+let worker=await readFile(new URL('../worker/index.mjs',import.meta.url),'utf8');
+worker=worker.replace("import M from '../dist/model.js';",model+'\nconst M=globalThis.GymModel;').replace('export default createWorker();','export default createWorker('+JSON.stringify(assets)+');');
+await mkdir(new URL('../dist/server/',import.meta.url),{recursive:true});
+await writeFile(new URL('../dist/server/index.js',import.meta.url),worker);
+console.log('Built self-contained Courtside Worker.');
