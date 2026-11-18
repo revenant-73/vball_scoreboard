@@ -1,5 +1,13 @@
 # Courtside — Gym Display
 
+Source repository: https://github.com/revenant-73/vball_scoreboard
+
+Local project folder: `D:\Websites-Apps\vball_scoreboard`.
+
+From this folder, run `node scripts/dev.mjs` and open http://127.0.0.1:8765. No dependency installation is needed. Run `node --test model.test.cjs remote.test.mjs` for tests and `node scripts/build.mjs` for the production Worker build.
+
+GitHub stores the source code. GitHub Pages alone cannot run the paired phone remote because it only serves static files: the shared session API and database must run on a backend host. The existing Sites deployment supplies that backend. The local server binds to this computer's loopback address for development; its address is not reachable from a separate phone or TV.
+
 A dependency-free gym display with a paired phone remote, local clock, countdown timer, and one or two volleyball scoreboards. For local development use Node 22.13+ and run `node scripts/dev.mjs`, then open http://127.0.0.1:8765. The local preview uses an in-memory SQLite database; restarting it ends local test sessions. `node scripts/build.mjs` builds a self-contained Cloudflare Worker from the browser assets and worker source. Production sessions use the Sites D1 binding DB and the schema in drizzle/.
 
 ## Use
