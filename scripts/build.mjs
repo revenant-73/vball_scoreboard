@@ -1,5 +1,5 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
-const files={'/index.html':'text/html; charset=utf-8','/style.css':'text/css; charset=utf-8','/model.js':'text/javascript; charset=utf-8','/app.js':'text/javascript; charset=utf-8','/remote.js':'text/javascript; charset=utf-8','/remote.css':'text/css; charset=utf-8'};
+const files={'/index.html':'text/html; charset=utf-8','/style.css':'text/css; charset=utf-8','/model.js':'text/javascript; charset=utf-8','/app.js':'text/javascript; charset=utf-8','/remote.js':'text/javascript; charset=utf-8','/remote.css':'text/css; charset=utf-8','/touch.js':'text/javascript; charset=utf-8','/touch-logic.js':'text/javascript; charset=utf-8','/touch.css':'text/css; charset=utf-8'};
 const assets={};
 for(const [path,type] of Object.entries(files))assets[path]={type,body:await readFile(new URL('../dist'+path,import.meta.url),'utf8')};
 const model=await readFile(new URL('../dist/model.js',import.meta.url),'utf8');

@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node scripts/dev.mjs",
     "build": "node scripts/build-netlify.mjs",
-    "test": "node --test model.test.cjs remote.test.mjs postgres.test.mjs"
+    "test": "node --test model.test.cjs remote.test.mjs postgres.test.mjs touch.test.cjs"
   },
   "dependencies": {
     "@netlify/database": "2.0.3"

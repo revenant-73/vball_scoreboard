@@ -45,7 +45,7 @@ function shareInfo(){
 async function activate(value,data){
  session=value;remote.active=true;remote.canEdit=session.role==='remote';stopped=false;queue=[];generation++;serverRevision=data.revision;persistSession();
  document.body.classList.toggle('phone-remote',session.role==='remote');connection.hidden=false;
- const pageURL=new URL(location.href);if(session.role==='display')pageURL.searchParams.set('display','1');else pageURL.searchParams.delete('display');history.replaceState(null,'',pageURL.pathname+pageURL.search);
+ const pageURL=new URL(location.href);pageURL.searchParams.set('paired','1');if(session.role==='display')pageURL.searchParams.set('display','1');else pageURL.searchParams.delete('display');history.replaceState(null,'',pageURL.pathname+pageURL.search);
  if(session.role==='display')setDisplay(true);else setDisplay(false);
  applySnapshot(data);setStatus(connectedLabel());shareInfo();dialog.close();
 }
@@ -71,6 +71,7 @@ document.querySelector('#copy-tv').onclick=async()=>{
 function disconnect(){
  generation++;queue=[];if(confirmedState)state=M.normalize(confirmedState);session=null;remote.active=false;remote.offset=0;stopped=false;
  try{sessionStorage.removeItem(storageKey);}catch{}
+ const localURL=new URL(location.href);localURL.searchParams.delete('paired');localURL.searchParams.delete('display');history.replaceState(null,'',localURL.pathname+localURL.search);
  document.body.classList.remove('phone-remote');connection.hidden=true;badge.hidden=true;setDisplay(false);render();save();
 }
 document.querySelector('#leave-session').onclick=()=>{if(queue.length&&!confirm('Some changes are not confirmed. Disconnect and return to the last confirmed scores?'))return;if(queue.length){queue=[];}disconnect();};
@@ -146,7 +147,11 @@ addEventListener('beforeunload',e=>{if(queue.length){e.preventDefault();e.return
  }else{try{saved=JSON.parse(sessionStorage.getItem(storageKey));}catch{}}
  if(saved){
   session=saved;
-  try{const data=await api('/api/rooms/'+session.code,{headers:headers()});await activate(saved,data);}
+  try{const data=await api('/api/rooms/'+session.code,{headers:headers()});
+   const explicitPairing=fragment.has('room')||new URLSearchParams(location.search).get('paired')==='1'||(new URLSearchParams(location.search).get('display')==='1'&&saved.role==='display');
+   if(explicitPairing)await activate(saved,data);
+   else{session=null;state=M.normalize(data.state);save();render();try{sessionStorage.removeItem(storageKey);}catch{}}
+  }
   catch{session=null;try{sessionStorage.removeItem(storageKey);}catch{}notify('Session unavailable. Choose Connect TV & phone to pair again.');}
  }
 })();

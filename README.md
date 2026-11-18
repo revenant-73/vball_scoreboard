@@ -14,11 +14,18 @@ For the Netlify backend, run `npm ci`, then `netlify dev` and `netlify database 
 
 The previous Sites/Cloudflare deployment remains separate and unchanged. Its original build command is `node scripts/build.mjs`; the Netlify adapter uses the same tested session API with Postgres-compatible storage. Session codes are specific to the host that created them.
 
-## Use
+## Touch display (default)
 
-Choose a mode, set the teams or timer, then choose **TV display** to hide editing controls. Exit using the subtle button at the bottom right; desktop keyboards also support F and Escape. Space starts/pauses the timer outside form controls. Timer presets replace the current timer. Custom duration supports 0–99 minutes and 0–59 seconds. A finished timer can be restarted with one tap. The visual alarm always works; optional sound must be enabled through a user gesture and depends on browser/device audio policy.
+Open the app on the phone and mirror the screen to a compatible TV. The phone and TV show the same display. Keep the phone open/unlocked, use landscape for a wall TV, and consider Do Not Disturb to prevent notifications on the TV. No pairing code or backend is needed for this screen-mirroring flow; local state is saved in the phone browser.
 
-Scoreboards have independent points, sets, serving indicators and editable team/court names. Swap ends moves team names, scores, sets and service together. Reset asks for confirmation; undo restores previous scoreboard actions. Points are bounded at 0–999 and sets at 0–99, with manual scoring so different practice formats are supported. The app does not automatically decide set or match winners.
+- Tap the navy or red score area to add one point. Swipe up/down on that side to add/subtract one. Team-name taps edit the name instead of scoring.
+- Tap scoreboard titles or team names to edit them. The TV will also show the edit dialog while mirroring.
+- Tap timer digits to start/pause. Hold for 0.75 seconds to request a reset, then confirm. Tap the duration label to change the preset time.
+- Swipe left/right between clock, timer, one scoreboard and two scoreboards. The small bottom-right grid icon opens the same mode choices plus settings, undo and full-screen options.
+- Dual scoreboards operate independently. Use settings to adjust sets, service, swap ends or reset scores. Three-digit scores remain supported.
+- Keyboard users can Tab to a name or score and use Enter/Space. All swipe actions also have menu/button alternatives.
+
+The optional paired phone remote and read-only TV browser remain available under the grid menu's **Separate TV browser (optional)** option. That setup uses the server; ordinary screen mirroring does not. Existing sessions and saved score data are preserved.
 
 ## Show it on a TV
 
@@ -47,7 +54,7 @@ Updates use short polling (roughly 0.8 seconds) with revision checks and retry-s
 
 Ordinary phone screen mirroring cannot transmit a separate scoreboard while hiding phone controls. Use a TV browser, a laptop on HDMI, or cast the laptop's paired display tab. A native Chromecast receiver/iOS second-screen integration is not included. Actual TV hardware, phone touch behavior, audio and wake lock still need a gym equipment test. Swipe pointer gestures were verified through browser input, not a physical phone.
 
-Run `node --test model.test.cjs remote.test.mjs postgres.test.mjs` for countdown, persistence validation, pairing, read-only TV authorization, revision conflicts, retries, timer clock offset, and expiry/revocation checks. Syntax-check app.js, remote.js and worker/index.mjs before building.
+Run `node --test model.test.cjs remote.test.mjs postgres.test.mjs touch.test.cjs` for countdown, persistence validation, pairing, read-only TV authorization, revision conflicts, retries, timer clock offset, and expiry/revocation checks. Syntax-check app.js, remote.js and worker/index.mjs before building.
 
 
 ## Netlify deployment
