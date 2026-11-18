@@ -4,3 +4,36 @@
 @media(orientation:landscape){.display-only .dual-mode{flex-direction:row}.display-only .dual-mode .court+.court{border-left:1px solid var(--line);border-top:0}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 .score-number.triple{font-size:clamp(55px,15cqw,175px)}.dual-mode .score-number.triple{font-size:clamp(38px,20cqw,115px)}.display-only .score-number.triple{font-size:min(25vw,45vh)}.display-only .dual-mode .score-number.triple{font-size:min(13vw,38vh)}@media(max-width:600px){.score-number.triple{font-size:20cqw}.dual-mode .score-number.triple{font-size:23cqw}.display-only .dual-mode .score-number.triple{font-size:min(18vw,16vh)}}
 .screen{width:100%;max-width:100%;min-width:0}
+
+/* Let the scoreboard own the screen; keep setup within easy reach below it. */
+.app-header{height:76px;max-width:none;padding-inline:24px}
+main{max-width:none;padding:20px 24px 0}
+.workspace-heading{display:none}
+.modes{margin-bottom:14px}
+.score-mode,.dual-mode{aspect-ratio:auto;height:calc(100dvh - 190px);min-height:360px}
+.score-mode .court,.dual-mode .court{padding:18px 24px}
+.score-mode .court-bottom,.dual-mode .court-bottom{display:none}
+.score-mode .teams,.dual-mode .teams{margin:10px 0}
+.score-mode .score-number{font-size:min(36cqw,55dvh);line-height:1;padding:0 12px 8px 0}
+.dual-mode .score-number{font-size:min(48cqw,55dvh);line-height:1;padding:0 8px 8px 0}
+.score-mode .score-number.triple,.dual-mode .score-number.triple{font-size:min(25cqw,50dvh)}
+.score-mode .team-name{font-size:clamp(20px,3cqw,64px)}
+.dual-mode .team-name{font-size:clamp(16px,4cqw,40px)}
+.display-only .score-mode .court,.display-only .dual-mode .court{padding:2dvh 2vw}
+.display-only .score-mode .score-number{font-size:min(36cqw,66dvh)}
+.display-only .dual-mode .score-number{font-size:min(48cqw,66dvh)}
+.display-only .score-mode .score-number.triple,.display-only .dual-mode .score-number.triple{font-size:min(25cqw,62dvh)}
+.display-only .score-mode .teams,.display-only .dual-mode .teams{margin:0}
+@media(max-width:600px){
+ .app-header{padding-inline:16px;height:70px}
+ main{padding:14px 12px 0}
+ .score-mode,.dual-mode{height:48dvh;min-height:280px}
+ .score-mode .court,.dual-mode .court{padding:14px 10px}
+ .score-mode .score-number{font-size:36cqw}
+ .dual-mode .score-number{font-size:38cqw}
+ .score-mode .score-number.triple,.dual-mode .score-number.triple{font-size:24cqw}
+ .dual-mode .team-name{font-size:clamp(10px,6cqw,16px)}
+ .display-only .dual-mode .score-number{font-size:min(36cqw,28dvh)}
+ .display-only .dual-mode .score-number.triple{font-size:min(24cqw,26dvh)}
+}
+

@@ -34,5 +34,7 @@ document.querySelector('#help').onclick=()=>document.querySelector('#help-dialog
 async function requestWake(){if(!keepAwake||document.visibilityState!=='visible'||wake)return;try{wake=await navigator.wakeLock.request('screen');wake.addEventListener('release',()=>wake=null);}catch{notify('Screen wake lock unavailable. Adjust your device’s auto-lock setting.');}}
 document.querySelector('#awake').onchange=async e=>{keepAwake=e.target.checked;if(keepAwake)await requestWake();else {await wake?.release();wake=null;}};document.addEventListener('visibilitychange',()=>{if(keepAwake&&document.visibilityState==='visible')requestWake();tick();});
 document.addEventListener('keydown',e=>{if(e.target.closest('input,textarea,select,button,[contenteditable="true"]')||document.querySelector('dialog[open]'))return;if(e.key===' '&&state.mode==='timer'){e.preventDefault();if(state.sound)initAudio();toggleTimer();}if(e.key.toLowerCase()==='f')setDisplay(!document.body.classList.contains('display-only'));if(e.key==='Escape')setDisplay(false);});
+const requestedMode=new URLSearchParams(location.search).get('mode');if(['clock','timer','score','dual'].includes(requestedMode))state.mode=requestedMode;
 render();if(new URLSearchParams(location.search).get('display')==='1'){document.body.classList.add('display-only');document.querySelector('#exit-display').hidden=false;}setInterval(tick,200);
+
 
