@@ -1,0 +1,20 @@
+{
+  "name": "vball-scoreboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Courtside volleyball display and paired phone remote",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "start": "node scripts/dev.mjs",
+    "build": "node scripts/build-netlify.mjs",
+    "test": "node --test model.test.cjs remote.test.mjs postgres.test.mjs"
+  },
+  "dependencies": {
+    "@netlify/database": "2.0.3"
+  },
+  "devDependencies": {
+    "@netlify/database-dev": "1.0.2"
+  }
+}

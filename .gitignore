@@ -7,3 +7,7 @@ brief.md
 *.jpg
 
 dist/server/
+.netlify/
+.env
+.env.*
+public/

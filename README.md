@@ -4,11 +4,15 @@ Source repository: https://github.com/revenant-73/vball_scoreboard
 
 Local project folder: `D:\Websites-Apps\vball_scoreboard`.
 
-From this folder, run `node scripts/dev.mjs` and open http://127.0.0.1:8765. No dependency installation is needed. Run `node --test model.test.cjs remote.test.mjs` for tests and `node scripts/build.mjs` for the production Worker build.
+Live Netlify app: https://vball-scoreboard.netlify.app
 
-GitHub stores the source code. GitHub Pages alone cannot run the paired phone remote because it only serves static files: the shared session API and database must run on a backend host. The existing Sites deployment supplies that backend. The local server binds to this computer's loopback address for development; its address is not reachable from a separate phone or TV.
+The browser display is plain HTML/CSS/JavaScript. Netlify serves the frontend and routes `/api/*` to a serverless function using managed Postgres for paired sessions. GitHub Pages alone cannot run the phone remote backend.
 
-A dependency-free gym display with a paired phone remote, local clock, countdown timer, and one or two volleyball scoreboards. For local development use Node 22.13+ and run `node scripts/dev.mjs`, then open http://127.0.0.1:8765. The local preview uses an in-memory SQLite database; restarting it ends local test sessions. `node scripts/build.mjs` builds a self-contained Cloudflare Worker from the browser assets and worker source. Production sessions use the Sites D1 binding DB and the schema in drizzle/.
+For a quick local preview, run `node scripts/dev.mjs` and open http://127.0.0.1:8765. This preview uses in-memory SQLite and needs Node 22.13+; restarting it ends local test sessions. It binds to loopback and is not reachable from another phone or TV.
+
+For the Netlify backend, run `npm ci`, then `netlify dev` and `netlify database migrations apply`. Netlify local development uses its Postgres-compatible database. The SQL migrations under `netlify/database/migrations/` are applied automatically to hosted databases during deployment. `node scripts/build-netlify.mjs` copies only browser assets to `public/`; server code and credentials are never published as static files.
+
+The previous Sites/Cloudflare deployment remains separate and unchanged. Its original build command is `node scripts/build.mjs`; the Netlify adapter uses the same tested session API with Postgres-compatible storage. Session codes are specific to the host that created them.
 
 ## Use
 
@@ -37,10 +41,17 @@ State is saved in this browser, including running timer deadlines. Private brows
 2. On the TV browser or a laptop displaying/casting to the TV, open Courtside, choose **Connect TV & phone**, enter the eight-character session code, and select **TV display**. Alternatively open the copied TV display link.
 3. The phone stays on large scoring pads: tap or swipe up adds one point; swipe down or the separate minus button subtracts one. Undo corrects the last local scoreboard change. Modes and timer controls synchronize as well. Team names, sets and serve are in the expandable settings.
 
-The TV page is read-only. It shows no phone controls. Display-link credentials live in the URL fragment until loaded and then in that tab's session storage. Pairing codes grant control to anyone who also has access to this private Site. Existing Site access has not changed: both devices must be able to access it. Sessions expire after 24 hours, and **End session** revokes all devices immediately. Disconnect only leaves the session on that device.
+The TV page is read-only. It shows no phone controls. Display-link credentials live in the URL fragment until loaded and then in that tab's session storage. The Netlify app can be opened by coaches without an account. Treat the session code as a remote key: anyone with it can control that session. Sessions expire after 24 hours, and **End session** revokes all devices immediately. Disconnect only leaves the session on that device.
 
 Updates use short polling (roughly 0.8 seconds) with revision checks and retry-safe IDs. Concurrent edits from different remotes cannot silently overwrite each other: the losing remote refreshes and asks the coach to retry. Connection status distinguishes pending/unconfirmed changes; the TV retains the last confirmed display if disconnected. Unconfirmed changes are held in memory and retried while the tab remains open. Avoid closing the remote until confirmed. Timer deadlines use the server clock offset.
 
 Ordinary phone screen mirroring cannot transmit a separate scoreboard while hiding phone controls. Use a TV browser, a laptop on HDMI, or cast the laptop's paired display tab. A native Chromecast receiver/iOS second-screen integration is not included. Actual TV hardware, phone touch behavior, audio and wake lock still need a gym equipment test. Swipe pointer gestures were verified through browser input, not a physical phone.
 
-Run `node --test model.test.cjs remote.test.mjs` for countdown, persistence validation, pairing, read-only TV authorization, revision conflicts, retries, timer clock offset, and expiry/revocation checks. Syntax-check app.js, remote.js and worker/index.mjs before building.
+Run `node --test model.test.cjs remote.test.mjs postgres.test.mjs` for countdown, persistence validation, pairing, read-only TV authorization, revision conflicts, retries, timer clock offset, and expiry/revocation checks. Syntax-check app.js, remote.js and worker/index.mjs before building.
+
+
+## Netlify deployment
+
+Netlify configuration lives in `netlify.toml`. Build output is `public/`, functions are in `netlify/functions/`, and the Postgres compatibility adapter is `server/postgres-db.mjs`. Runtime database configuration is supplied by Netlify; do not commit connection strings or `.netlify/` state. The production branch is `main` in the linked GitHub repository.
+
+The test suite exercises the same session API against both SQLite and Netlify's local Postgres-compatible engine, including pairing, read-only displays, concurrent updates, safe retries, expiry and session termination. Migration files are additive and must not be edited after deployment. No scores from the old host are copied: open the new URL on both devices and start a new session.
